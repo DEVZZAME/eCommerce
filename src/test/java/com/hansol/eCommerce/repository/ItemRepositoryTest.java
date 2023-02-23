@@ -29,6 +29,7 @@ class ItemRepositoryTest {
         item.setRegTime(LocalDateTime.now());
         item.setUpdateTime(LocalDateTime.now());
         Item savedItem = itemRepository.save(item);
+
         System.out.println(savedItem.toString());
     }
 
