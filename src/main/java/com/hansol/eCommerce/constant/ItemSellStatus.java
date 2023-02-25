@@ -2,6 +2,6 @@ package com.hansol.eCommerce.constant;
 
 public enum ItemSellStatus {
 
-    SELL, SOLD_OUT
+    SELL, SOLD_OUT, SOON
 
 }

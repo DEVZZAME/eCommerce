@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,6 +25,12 @@ public class Item {
 
     @Column(name="price", nullable = false)
     private int price; //가격
+
+    @Column(nullable = false)
+    private int discountRate; //할인율
+
+    @Column(nullable = true)
+    private int discountPrice; //할인가격
 
     @Column(nullable = false)
     private int stockNumber; //재고수량
