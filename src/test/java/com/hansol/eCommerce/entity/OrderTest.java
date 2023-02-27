@@ -3,6 +3,7 @@ package com.hansol.eCommerce.entity;
 import com.hansol.eCommerce.constant.ItemSellStatus;
 import com.hansol.eCommerce.repository.ItemRepository;
 import com.hansol.eCommerce.repository.MemberRepository;
+import com.hansol.eCommerce.repository.OrderItemRepository;
 import com.hansol.eCommerce.repository.OrderRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,9 @@ class OrderTest {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    OrderItemRepository orderItemRepository;
 
     @PersistenceContext
     EntityManager em;
@@ -103,5 +107,22 @@ class OrderTest {
         Order order = this.createOrder();
         order.getOrderItems().remove(0);
         em.flush();
+    }
+
+    @Test
+    @DisplayName("지연 로딩 테스트")
+    public void lazyLoadingTest() {
+        Order order = this.createOrder();
+        Long orderItemId = order.getOrderItems().get(0).getId();
+        em.flush();
+        em.clear();
+
+        OrderItem orderItem = orderItemRepository.findById(orderItemId)
+                .orElseThrow(EntityNotFoundException::new);
+        System.out.println("Order class : " + orderItem.getOrder().getClass());
+        System.out.println("======================");
+        orderItem.getOrder().getOrderDate();
+        System.out.println("======================");
+
     }
 }
