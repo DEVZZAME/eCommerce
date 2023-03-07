@@ -41,4 +41,8 @@ public class Item extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     private ItemSellStatus itemSellStatus; //상품 판매 상태
+
+    public void setDiscountPrice() {
+        this.discountPrice = this.price - ((this.price * this.discountRate) / 100);
+    }
 }
