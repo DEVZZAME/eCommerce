@@ -45,10 +45,14 @@ public class ItemFormDto {
     private static ModelMapper modelMapper = new ModelMapper();
 
     public Item createItem() {
-        return modelMapper.map(this, Item.class);
+        Item item = modelMapper.map(this, Item.class);
+        item.setDiscountPrice();
+        return item;
+//        return modelMapper.map(this, Item.class);
     }
 
     public static ItemFormDto of(Item item) {
         return modelMapper.map(item, ItemFormDto.class);
     }
+
 }
