@@ -6,10 +6,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 import org.modelmapper.ModelMapper;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,10 @@ public class ItemFormDto {
 
     private ItemSellStatus itemSellStatus;
 
+    @NotNull(message = "상품 판매 시작 시간은 필수 입력 값입니다.")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime sellStartTime; //상품 판매 시작 시간
+
     private List<ItemImgDto> itemImgDtoList = new ArrayList<>();
 
     private List<Long> itemImgIds = new ArrayList<>();
@@ -48,7 +53,6 @@ public class ItemFormDto {
         Item item = modelMapper.map(this, Item.class);
         item.setDiscountPrice();
         return item;
-//        return modelMapper.map(this, Item.class);
     }
 
     public static ItemFormDto of(Item item) {

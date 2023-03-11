@@ -1,5 +1,6 @@
 package com.hansol.eCommerce.service;
 
+import com.hansol.eCommerce.constant.ItemSellStatus;
 import com.hansol.eCommerce.dto.ItemFormDto;
 import com.hansol.eCommerce.entity.Item;
 import com.hansol.eCommerce.entity.ItemImg;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,6 +26,14 @@ public class ItemService {
                          List<MultipartFile> itemImgFileList) throws Exception {
         //상품 등록
         Item item = itemFormDto.createItem();
+
+        LocalDateTime sellStartTime = itemFormDto.getSellStartTime();
+        if(sellStartTime.isBefore(LocalDateTime.now())) {
+            item.setItemSellStatus(ItemSellStatus.SELL);
+        } else {
+            item.setItemSellStatus(ItemSellStatus.SOON);
+        }
+
         itemRepository.save(item);
 
         //이미지 등록

@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Entity
@@ -41,6 +40,9 @@ public class Item extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     private ItemSellStatus itemSellStatus; //상품 판매 상태
+
+    @Column(name="sell_start_time")
+    private LocalDateTime sellStartTime; //상품 판매 시작 시간
 
     public void setDiscountPrice() {
         this.discountPrice = this.price - ((this.price * this.discountRate) / 100);

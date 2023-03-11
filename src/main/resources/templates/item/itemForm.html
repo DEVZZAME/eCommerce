@@ -64,6 +64,7 @@
     <div class="form-group">
       <select th:field="*{itemSellStatus}" class="custom-select">
         <option value="SELL">판매중</option>
+        <option value="SOON">판매예약</option>
         <option value="SOLD_OUT">품절</option>
       </select>
     </div>
@@ -99,6 +100,14 @@
       <input type="number" th:field="*{stockNumber}" class="form-control" placeholder="상품의 재고를 입력해주세요">
     </div>
     <p th:if="${#fields.hasErrors('stockNumber')}" th:errors="*{stockNumber}" class="fieldError">Incorrect data</p>
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">상품 판매 시간</span>
+      </div>
+      <input type="datetime-local" th:field="*{sellStartTime}" id="sellStartTime" class="form-control" th:datetime="${#temporals.format(sellStartTime, 'yyyy-MM-ddTHH:mm')}">
+    </div>
+    <p th:if="${#fields.hasErrors('sellStartTime')}" th:errors="*{sellStartTime}" class="fieldError">Incorrect data</p>
 
     <div class="input-group">
       <div class="input-group-prepend">
