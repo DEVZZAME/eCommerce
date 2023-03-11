@@ -1,6 +1,7 @@
 package com.hansol.eCommerce.entity;
 
 import com.hansol.eCommerce.constant.ItemSellStatus;
+import com.hansol.eCommerce.dto.ItemFormDto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -46,5 +47,17 @@ public class Item extends BaseEntity{
 
     public void setDiscountPrice() {
         this.discountPrice = this.price - ((this.price * this.discountRate) / 100);
+    }
+
+    public void updateItem(ItemFormDto itemFormDto) {
+        this.itemNm = itemFormDto.getItemNm();
+        this.price = itemFormDto.getPrice();
+        this.stockNumber = itemFormDto.getStockNumber();
+        this.itemDetail = itemFormDto.getItemDetail();
+        this.itemSellStatus = itemFormDto.getItemSellStatus();
+        this.discountRate = itemFormDto.getDiscountRate();
+        this.sellStartTime = itemFormDto.getSellStartTime();
+        this.discountPrice = this.price - ((this.price * this.discountRate) / 100);
+
     }
 }
