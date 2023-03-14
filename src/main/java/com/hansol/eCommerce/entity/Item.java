@@ -60,4 +60,6 @@ public class Item extends BaseEntity{
         this.discountPrice = this.price - ((this.price * this.discountRate) / 100);
 
     }
+
+
 }

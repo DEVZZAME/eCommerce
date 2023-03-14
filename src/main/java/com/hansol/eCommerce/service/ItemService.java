@@ -3,11 +3,16 @@ package com.hansol.eCommerce.service;
 import com.hansol.eCommerce.constant.ItemSellStatus;
 import com.hansol.eCommerce.dto.ItemFormDto;
 import com.hansol.eCommerce.dto.ItemImgDto;
+import com.hansol.eCommerce.dto.ItemSearchDto;
+import com.hansol.eCommerce.dto.MainItemDto;
 import com.hansol.eCommerce.entity.Item;
 import com.hansol.eCommerce.entity.ItemImg;
 import com.hansol.eCommerce.repository.ItemImgRepository;
 import com.hansol.eCommerce.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -83,5 +88,31 @@ public class ItemService {
             itemImgService.updateItemImg(itemImgIds.get(i), itemImgFileList.get(i));
         }
         return item.getId();
+    }
+
+    @Transactional
+    public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
+        return itemRepository.getAdminItemPage(itemSearchDto, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable){
+        return itemRepository.getMainItemPage(itemSearchDto, pageable);
+    }
+
+    @Scheduled(cron = "0 * * * * ?", zone="Asia/Seoul") // 10초마다 실행
+    public void checkSellStartTime() {
+        LocalDateTime now = LocalDateTime.now();
+        List<Item> itemList = itemRepository.findByItemSellStatus(ItemSellStatus.SOON);
+        for (Item item : itemList) {
+            if (item.getSellStartTime().isBefore(now)) {
+                item.setItemSellStatus(ItemSellStatus.SELL);
+                itemRepository.save(item);
+                System.out.println("===========================");
+                System.out.println("상품 상태 변경 성공");
+            }
+        }
+        System.out.println("===========================");
+
     }
 }

@@ -31,7 +31,7 @@ public class ItemImgService {
         //File Upload
         if (!StringUtils.isEmpty(oriImgName)) {
             imgName = fileService.uploadFile(itemImgLocation, oriImgName, itemImgFile.getBytes());
-            imgUrl = "/images/item" + imgName;
+            imgUrl = "/images/item/" + imgName;
         }
 
         //Save Item Image Details
